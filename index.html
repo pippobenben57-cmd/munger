@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="查理·芒格：穷查理宝典十一讲导读，误判心理学二十五条，思维模型，原则清单，股东大会要点，讲话与访谈总目。">
+<title>查理·芒格</title>
+<style>
+/* 一本账簿：浅灰绿的账页、墨色的字、深绿的栏线 */
+:root{
+  --paper:#eef1ec;--sheet:#f8faf6;--ink:#1c211e;--soft:#56615a;--faint:#869088;--rule:#cdd5cd;--acc:#2f5d46;--acc-soft:#2f5d4620;
+  --song:"Songti SC","STSong","SimSun","Noto Serif CJK SC",serif;
+  --kai:"Kaiti SC","STKaiti","KaiTi","楷体",serif;
+  --en:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#141815;--sheet:#1a201c;--ink:#e1e7e1;--soft:#a0aca3;--faint:#74807a;--rule:#313b34;--acc:#86c3a0;--acc-soft:#86c3a024;color-scheme:dark}}
+:root[data-theme="dark"]{--paper:#141815;--sheet:#1a201c;--ink:#e1e7e1;--soft:#a0aca3;--faint:#74807a;--rule:#313b34;--acc:#86c3a0;--acc-soft:#86c3a024;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--song);font-size:17px;line-height:1.85;padding:0 16px 72px}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:inherit}
+button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+a{color:var(--acc)}
+.wrap{max-width:1080px;margin-inline:auto}
+header.top{padding:28px 0 18px;border-bottom:2px solid var(--ink)}
+.back{font-size:.84rem;color:var(--soft);text-decoration:none;letter-spacing:.06em}
+.back:hover{color:var(--acc)}
+.mast{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 20px;margin-top:10px}
+h1{font-family:var(--kai);font-weight:400;font-size:clamp(2.1rem,6vw,3.1rem);line-height:1.15;margin:0;letter-spacing:.05em}
+.mast .en{font-family:var(--en);font-style:italic;color:var(--soft);font-size:1.05rem}
+.lede{margin:10px 0 0;color:var(--soft);max-width:44em;font-size:.96rem}
+.warn{margin:12px 0 0;font-size:.84rem;color:var(--soft);border-left:3px solid var(--acc);padding:2px 0 2px 10px;max-width:46em}
+nav.tabs{position:sticky;top:0;z-index:5;background:var(--paper);display:flex;gap:2px 20px;flex-wrap:wrap;padding:10px 0;border-bottom:1px solid var(--rule);margin-bottom:26px}
+nav.tabs button{font-family:var(--kai);font-size:1.08rem;letter-spacing:.08em;padding:4px 0;border-bottom:2px solid transparent;color:var(--soft)}
+nav.tabs button[aria-current="true"]{color:var(--ink);border-color:var(--acc)}
+nav.tabs .sp{flex:1}
+nav.tabs input{font:inherit;font-size:.9rem;background:var(--sheet);color:var(--ink);border:1px solid var(--rule);padding:4px 10px;width:min(220px,100%);border-radius:0}
+@media (max-width:700px){nav.tabs{position:static}}
+section.view[hidden]{display:none}
+h2{font-family:var(--kai);font-weight:400;font-size:1.65rem;margin:0 0 4px;line-height:1.3;text-wrap:balance}
+h3{font-family:var(--kai);font-weight:400;font-size:1.22rem;margin:30px 0 8px}
+.eyebrow{font-size:.78rem;letter-spacing:.2em;color:var(--acc)}
+.muted{color:var(--soft)}.small{font-size:.87rem}
+p{max-width:40em}
+.two{display:grid;grid-template-columns:240px minmax(0,1fr);gap:36px;align-items:start}
+@media (max-width:900px){.two{grid-template-columns:minmax(0,1fr)}}
+.side{position:sticky;top:60px;max-height:calc(100vh - 80px);overflow:auto}
+.side button{display:block;width:100%;padding:5px 0 5px 10px;border-left:2px solid transparent;color:var(--soft);font-size:.94rem;line-height:1.45}
+.side button[aria-current="true"]{border-color:var(--acc);color:var(--ink)}
+.side .num{font-family:var(--en);font-size:.8rem;color:var(--faint);margin-right:6px;font-variant-numeric:tabular-nums}
+@media (max-width:900px){.side{position:static;max-height:none;display:flex;flex-wrap:wrap;gap:2px 14px}.side button{width:auto;border-left:0;border-bottom:2px solid transparent;padding:2px 0}}
+ol.pts{padding-left:1.3em;margin:12px 0}
+ol.pts li{margin:10px 0;max-width:39em}
+ol.pts li::marker{font-family:var(--en);color:var(--acc)}
+.take{background:var(--sheet);border:1px solid var(--rule);border-left:3px solid var(--acc);padding:12px 18px;margin:18px 0;max-width:41em}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:22px;font-size:.92rem}
+.pager button{color:var(--acc)}.pager button:disabled{color:var(--faint);cursor:default}
+/* 账簿式的条目 */
+.rows{display:grid;grid-template-columns:7em minmax(0,1fr);gap:0 16px;max-width:48em}
+.rows>div{padding:8px 0;border-bottom:1px solid var(--rule)}
+.rows .y{font-family:var(--en);color:var(--acc);font-variant-numeric:tabular-nums;font-size:.94rem}
+@media (max-width:560px){.rows{grid-template-columns:minmax(0,1fr)}.rows .y{border-bottom:0;padding-bottom:0}}
+details.b{border-bottom:1px solid var(--rule);max-width:48em;scroll-margin-top:70px}
+details.b summary{cursor:pointer;padding:10px 0;display:grid;grid-template-columns:2.2em minmax(0,1fr);gap:0 6px;list-style:none}
+details.b summary::-webkit-details-marker{display:none}
+details.b summary .n{font-family:var(--en);color:var(--acc);font-variant-numeric:tabular-nums}
+details.b summary b{font-family:var(--kai);font-weight:400;font-size:1.12rem}
+details.b summary .e{font-family:var(--en);font-style:italic;font-size:.84rem;color:var(--faint);margin-left:8px}
+details.b summary .d{display:block;color:var(--soft);font-size:.92rem}
+details.b .in{padding:0 0 14px 2.6em}
+details.b dl{margin:0;display:grid;grid-template-columns:3.2em minmax(0,1fr);gap:6px 10px;font-size:.94rem}
+details.b dt{color:var(--acc);font-family:var(--kai)}
+details.b dd{margin:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px 32px}
+.grid h3{margin-top:6px;border-bottom:1px solid var(--ink);padding-bottom:4px}
+dl.kv{margin:0}
+dl.kv dt{font-family:var(--kai);font-size:1.05rem;margin-top:10px}
+dl.kv dd{margin:0;font-size:.93rem;color:var(--soft)}
+ul.chk{list-style:none;padding:0;margin:0}
+ul.chk li{padding:5px 0 5px 1.4em;position:relative;font-size:.95rem;border-bottom:1px dotted var(--rule)}
+ul.chk li::before{content:"";position:absolute;left:0;top:.75em;width:.7em;height:.7em;border:1px solid var(--acc)}
+table.cat{border-collapse:collapse;width:100%;font-size:.92rem}
+table.cat th,table.cat td{border-bottom:1px solid var(--rule);padding:7px 12px 7px 0;text-align:left;vertical-align:top;font-weight:400}
+table.cat th{font-size:.78rem;letter-spacing:.1em;color:var(--faint)}
+table.cat td:first-child{font-family:var(--en);color:var(--acc);white-space:nowrap;font-variant-numeric:tabular-nums}
+table.cat td:nth-child(2){font-family:var(--kai);font-size:1.02rem;min-width:9em}
+table.cat td:nth-child(3){color:var(--faint);font-size:.84rem;min-width:7em}
+.scroll{overflow-x:auto}
+#qres{background:var(--sheet);border:1px solid var(--rule);padding:12px 16px;margin-bottom:22px;max-height:60vh;overflow:auto}
+#qres button{display:block;width:100%;padding:6px 0;border-bottom:1px solid var(--rule);font-size:.9rem}
+#qres .w{font-size:.76rem;color:var(--faint)}
+mark{background:var(--acc-soft);color:inherit}
+.hit{background:var(--acc-soft)}
+footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--rule);font-size:.8rem;color:var(--faint)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="back" href="../">← 渊默的学习小院</a>
+  <div class="mast"><h1>查理·芒格</h1><span class="en" lang="en">Charles T. Munger, 1924–2023</span></div>
+  <p class="lede">伯克希尔·哈撒韦的副董事长，巴菲特六十年的搭档。这里以《穷查理宝典》为主干，把他的十一篇讲话、误判心理学、思维模型、做事的原则，以及三处股东大会和历年访谈里的说法，整理成可以查的一套笔记。</p>
+  <p class="warn">这是导读和归纳，不是原文。宝典和讲话实录仍受版权保护，本站只用编者自己的话转述；内容凭记忆整理，未逐条核对，引用请对照原始出处。</p>
+</header>
+<nav class="tabs" aria-label="栏目">
+  <button type="button" data-tab="life">生平</button>
+  <button type="button" data-tab="talks">十一讲</button>
+  <button type="button" data-tab="bias">误判心理学</button>
+  <button type="button" data-tab="models">思维模型</button>
+  <button type="button" data-tab="rules">原则</button>
+  <button type="button" data-tab="meet">股东大会</button>
+  <button type="button" data-tab="cat">总目</button>
+  <button type="button" data-tab="read">去哪里读</button>
+  <button type="button" data-tab="how">怎么读</button>
+  <span class="sp"></span>
+  <input id="q" type="search" placeholder="搜全站" aria-label="搜索全站">
+</nav>
+<div id="qres" hidden></div>
+
+<section class="view" id="v-life" hidden>
+  <h2>生平</h2>
+  <div class="rows" id="life"></div>
+  <h2 style="margin-top:44px">他常提到的人</h2>
+  <dl class="kv" id="people" style="max-width:46em"></dl>
+</section>
+
+<section class="view" id="v-talks" hidden>
+  <div class="two"><aside class="side" id="tside" aria-label="十一讲目录"></aside><article id="tbody"></article></div>
+</section>
+
+<section class="view" id="v-bias" hidden>
+  <h2>人类误判心理学：二十五种倾向</h2>
+  <p class="muted">宝典第十一讲的逐条展开。点开每一条，看它是什么、他举的例子、他给的对策。第二十五条讲的是前面二十四条怎样叠加。</p>
+  <p class="small"><button type="button" id="openall" style="color:var(--acc);text-decoration:underline">全部展开</button></p>
+  <div id="bias"></div>
+</section>
+
+<section class="view" id="v-models" hidden>
+  <h2>思维模型格栅</h2>
+  <p class="muted">他说八九十个模型能承担九成的重量。他从没有公布过一张完整的清单，下面是按他在讲话里点过名的学科整理的主要模型。</p>
+  <div class="grid" id="models"></div>
+</section>
+
+<section class="view" id="v-rules" hidden>
+  <h2>投资原则检查清单</h2>
+  <p class="muted">宝典里有一份按十个词编排的清单。下面是编者压缩改写的版本。他的用法是：作重要决定之前逐条过一遍。</p>
+  <div class="grid" id="rules"></div>
+  <h2 style="margin-top:44px">他怎样看生意和投资</h2>
+  <dl class="kv" id="biz" style="max-width:46em"></dl>
+</section>
+
+<section class="view" id="v-meet" hidden>
+  <div class="two"><aside class="side" id="mside" aria-label="股东大会目录"></aside><article id="mbody"></article></div>
+</section>
+
+<section class="view" id="v-cat" hidden>
+  <h2>讲话、文章与访谈总目</h2>
+  <p class="muted">按年代排列。这是编者所知的主要公开材料，不敢说没有遗漏；每年的伯克希尔年会（1994 年起有录像）没有逐年列入，见“股东大会”。</p>
+  <div class="scroll"><table class="cat" id="cat"></table></div>
+</section>
+
+<section class="view" id="v-read" hidden>
+  <h2>去哪里读原文</h2>
+  <dl class="kv" id="about" style="max-width:46em"></dl>
+  <h2 style="margin-top:44px">他推荐过的书</h2>
+  <p class="muted small">他说自己认识的聪明人没有一个不是每天读书的。下面是他在宝典和年会上推荐过的一部分。</p>
+  <div class="scroll"><table class="cat" id="books"></table></div>
+</section>
+
+<section class="view" id="v-how" hidden>
+  <h2>怎么读</h2>
+  <dl class="kv" id="how" style="max-width:44em"></dl>
+</section>
+
+<footer>本站内容由 AI（Claude）整理撰写，是导读与归纳，不含《穷查理宝典》及芒格讲话的原文。凭记忆整理，未经人工核对。</footer>
+</div>
+
+<script src="c1.js"></script>
+<script src="c2.js"></script>
+<script src="c3.js"></script>
+<script>
+"use strict";
+const $=id=>document.getElementById(id),M=window.M;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let curTab="life",curTalk=10,curMeet="djco";
+const TABS=["life","talks","bias","models","rules","meet","cat","read","how"];
+const INDEX=[];
+const add=(go,where,text)=>INDEX.push({go,where,text});
+
+/* 生平 */
+$("life").innerHTML=M.LIFE.map(r=>`<div class="y">${esc(r[0])}</div><div>${esc(r[1])}</div>`).join("");
+$("people").innerHTML=M.PEOPLE.map(p=>`<dt>${esc(p[0])}</dt><dd>${esc(p[1])}</dd>`).join("");
+M.LIFE.forEach(r=>add("life","生平 · "+r[0],r[1]));M.PEOPLE.forEach(p=>add("life","人物 · "+p[0],p[0]+"："+p[1]));
+
+/* 十一讲 */
+$("tside").innerHTML=M.TALKS.map(t=>`<button type="button" data-talk="${t.n}"><span class="num">${String(t.n).padStart(2,"0")}</span>${esc(t.t)}</button>`).join("");
+function showTalk(n){
+  n=Math.max(1,Math.min(11,n));curTalk=n;const t=M.TALKS[n-1];
+  document.querySelectorAll("[data-talk]").forEach(b=>b.setAttribute("aria-current",+b.dataset.talk===n?"true":"false"));
+  $("tbody").innerHTML=`<div class="eyebrow">宝典第 ${n} 讲 · 导读</div><h2>${esc(t.t)}</h2>
+   <p class="muted small" lang="en" style="font-family:var(--en);font-style:italic;margin:0">${esc(t.en)}</p>
+   <p class="small muted">${esc(t.when)}</p><p>${esc(t.bg)}</p>
+   <h3>他讲了什么</h3><ol class="pts">${t.pts.map(p=>`<li>${esc(p)}</li>`).join("")}</ol>
+   <h3>要点</h3><div class="take">${esc(t.take)}</div>
+   ${n===11?`<p><button type="button" data-tab="bias" style="color:var(--acc);text-decoration:underline">逐条看二十五种倾向 →</button></p>`:""}
+   <div class="pager"><button type="button" data-talk="${n-1}" ${n===1?"disabled":""}>← 上一讲</button><button type="button" data-talk="${n+1}" ${n===11?"disabled":""}>下一讲 →</button></div>`;
+}
+M.TALKS.forEach(t=>add("talk:"+t.n,"第 "+t.n+" 讲 · "+t.t,[t.t,t.when,t.bg,...t.pts,t.take].join("\n")));
+
+/* 误判心理学 */
+$("bias").innerHTML=M.BIAS.map(b=>`<details class="b" id="b${b[0]}"><summary><span class="n">${b[0]}</span><span><b>${esc(b[1])}</b><span class="e" lang="en">${esc(b[2])}</span><span class="d">${esc(b[3])}</span></span></summary><div class="in"><dl><dt>例子</dt><dd>${esc(b[4])}</dd><dt>对策</dt><dd>${esc(b[5])}</dd></dl></div></details>`).join("");
+M.BIAS.forEach(b=>add("bias:"+b[0],"误判心理学 · "+b[0]+" "+b[1],b.slice(1).join("\n")));
+$("openall").addEventListener("click",e=>{const ds=[...document.querySelectorAll("details.b")],open=ds.some(d=>!d.open);ds.forEach(d=>d.open=open);e.target.textContent=open?"全部收起":"全部展开"});
+
+/* 模型、原则 */
+$("models").innerHTML=M.MODELS.map(g=>`<div><h3>${esc(g[0])}</h3><dl class="kv">${g[1].map(m=>`<dt>${esc(m[0])}</dt><dd>${esc(m[1])}</dd>`).join("")}</dl></div>`).join("");
+M.MODELS.forEach(g=>g[1].forEach(m=>add("models","思维模型 · "+g[0]+" · "+m[0],m[0]+"："+m[1])));
+$("rules").innerHTML=M.PRINCIPLES.map(g=>`<div><h3>${esc(g[0])}</h3><ul class="chk">${g[1].map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`).join("");
+$("biz").innerHTML=M.BUSINESS.map(p=>`<dt>${esc(p[0])}</dt><dd>${esc(p[1])}</dd>`).join("");
+M.PRINCIPLES.forEach(g=>add("rules","原则 · "+g[0],g[1].join("\n")));M.BUSINESS.forEach(p=>add("rules","生意和投资 · "+p[0],p[1]));
+
+/* 股东大会 */
+$("mside").innerHTML=M.MEET.map(m=>`<button type="button" data-meet="${m.k}">${esc(m.t)}</button>`).join("")+`<button type="button" data-meet="themes">他反复讲的话题</button>`;
+function showMeet(k){
+  curMeet=k;document.querySelectorAll("[data-meet]").forEach(b=>b.setAttribute("aria-current",b.dataset.meet===k?"true":"false"));
+  if(k==="themes"){$("mbody").innerHTML=`<div class="eyebrow">股东大会</div><h2>他反复讲的话题</h2><p class="muted">三处年会上年年被问、年年回答的几件事。</p><dl class="kv" style="max-width:44em">${M.THEMES.map(t=>`<dt>${esc(t[0])}</dt><dd>${esc(t[1])}</dd>`).join("")}</dl>`;return;}
+  const m=M.MEET.find(x=>x.k===k)||M.MEET[0];
+  $("mbody").innerHTML=`<div class="eyebrow">股东大会</div><h2>${esc(m.t)}</h2><p class="small muted">${esc(m.where)}　·　${esc(m.span)}</p><p>${esc(m.intro)}</p>
+   <h3>历年要点</h3><div class="rows">${m.years.map(y=>`<div class="y">${esc(y[0])}</div><div>${esc(y[1])}</div>`).join("")}</div>
+   <p class="small muted" style="margin-top:14px">所列是那一年流传较广的内容，不是全部；凭记忆整理，年份如有出入请以录像和实录为准。</p>`;
+}
+M.MEET.forEach(m=>{add("meet:"+m.k,m.t,m.intro);m.years.forEach(y=>add("meet:"+m.k,m.t+" · "+y[0],y[1]))});
+M.THEMES.forEach(t=>add("meet:themes","年会话题 · "+t[0],t[1]));
+
+/* 总目、出处、书单、说明 */
+$("cat").innerHTML=`<tr><th>年份</th><th>题目</th><th>场合</th><th>内容</th></tr>`+M.CATALOG.map(c=>`<tr><td>${esc(c[0])}</td><td>${esc(c[1])}</td><td>${esc(c[2])}</td><td>${esc(c[3])}</td></tr>`).join("");
+M.CATALOG.forEach(c=>add("cat","总目 · "+c[0]+" "+c[1],c.join(" ")));
+$("about").innerHTML=M.ABOUT.map(p=>`<dt>${esc(p[0])}</dt><dd>${esc(p[1])}</dd>`).join("");
+$("books").innerHTML=`<tr><th></th><th>书名</th><th>作者</th><th>说明</th></tr>`+M.BOOKS.map((b,i)=>`<tr><td>${i+1}</td><td>${esc(b[0])}</td><td>${esc(b[1])}</td><td>${esc(b[2])}</td></tr>`).join("");
+M.ABOUT.forEach(p=>add("read","去哪里读 · "+p[0],p[1]));M.BOOKS.forEach(b=>add("read","书单 · "+b[0],b.join(" ")));
+$("how").innerHTML=M.HOWTO.map(p=>`<dt>${esc(p[0])}</dt><dd>${esc(p[1])}</dd>`).join("");
+
+/* 切换与路由 */
+function tab(k,keep){curTab=k;document.querySelectorAll("section.view").forEach(s=>s.hidden=s.id!=="v-"+k);
+  document.querySelectorAll("nav.tabs [data-tab]").forEach(b=>b.setAttribute("aria-current",b.dataset.tab===k?"true":"false"));if(!keep)window.scrollTo({top:0});}
+const setHash=h=>{try{history.replaceState(null,"","#"+h)}catch(e){}};
+function go(g){
+  const [a,b]=g.split(":");
+  if(a==="talk"){tab("talks");showTalk(+b);setHash("talk-"+b);}
+  else if(a==="bias"){tab("bias",true);const d=$("b"+b);if(d){d.open=true;d.scrollIntoView({block:"center"});d.classList.add("hit");setTimeout(()=>d.classList.remove("hit"),1800);}setHash("b"+b);}
+  else if(a==="meet"){tab("meet");showMeet(b);setHash("meet-"+b);}
+  else if(TABS.includes(a)){tab(a);setHash(a);}
+}
+function route(){
+  const h=location.hash.slice(1);let m;
+  if((m=/^talk-(\d+)$/.exec(h)))go("talk:"+m[1]);
+  else if((m=/^b(\d+)$/.exec(h)))go("bias:"+m[1]);
+  else if((m=/^meet-(\w+)$/.exec(h)))go("meet:"+m[1]);
+  else if(TABS.includes(h))tab(h);
+  else tab("life");
+}
+document.addEventListener("click",e=>{
+  const t=e.target.closest("[data-tab],[data-talk],[data-meet],[data-go]");if(!t||t.disabled)return;
+  if(t.dataset.go){$("qres").hidden=true;go(t.dataset.go);}
+  else if(t.dataset.tab){tab(t.dataset.tab);setHash(t.dataset.tab);}
+  else if(t.dataset.talk){go("talk:"+t.dataset.talk);}
+  else if(t.dataset.meet){go("meet:"+t.dataset.meet);}
+});
+window.addEventListener("hashchange",route);
+$("q").addEventListener("input",()=>{
+  const s=$("q").value.trim(),box=$("qres");if(!s){box.hidden=true;return;}
+  const low=s.toLowerCase(),hits=INDEX.filter(x=>x.text.toLowerCase().includes(low)).slice(0,60);
+  box.hidden=false;
+  box.innerHTML=`<p class="small muted" style="margin:0 0 6px">${hits.length?`找到 ${hits.length}${hits.length===60?"+":""} 处`:"没有找到，换个词试试。"}</p>`+hits.map(x=>{
+    const k=x.text.toLowerCase().indexOf(low),a=Math.max(0,k-20),c=x.text.slice(a,k+s.length+40).replace(/\n/g," "),kk=k-a;
+    return `<button type="button" data-go="${x.go}">${a?"…":""}${esc(c.slice(0,kk))}<mark>${esc(c.slice(kk,kk+s.length))}</mark>${esc(c.slice(kk+s.length))}…<div class="w">${esc(x.where)}</div></button>`}).join("");
+});
+showTalk(curTalk);showMeet(curMeet);route();
+</script>
+</body>
+</html>
