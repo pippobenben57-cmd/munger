@@ -109,6 +109,7 @@ footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--rule);font-si
   <button type="button" data-tab="models">思维模型</button>
   <button type="button" data-tab="rules">原则</button>
   <button type="button" data-tab="meet">股东大会</button>
+  <button type="button" data-tab="bq">访谈</button>
   <button type="button" data-tab="cat">总目</button>
   <button type="button" data-tab="read">去哪里读</button>
   <button type="button" data-tab="how">怎么读</button>
@@ -153,6 +154,12 @@ footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--rule);font-si
   <div class="two"><aside class="side" id="mside" aria-label="股东大会目录"></aside><article id="mbody"></article></div>
 </section>
 
+<section class="view" id="v-bq" hidden>
+  <h2>贝基·奎克的历次采访</h2>
+  <p class="muted">CNBC 的贝基·奎克是采访芒格最多的记者。下面按时间倒序列出能确认的各场。CNBC 的文字稿受版权保护，网站也无法从这里直接读取，所以每一场都写明了核对到什么程度；只有核对过的内容才展开。</p>
+  <div id="bq"></div>
+</section>
+
 <section class="view" id="v-cat" hidden>
   <h2>讲话、文章与访谈总目</h2>
   <p class="muted">按年代排列。这是编者所知的主要公开材料，不敢说没有遗漏；每年的伯克希尔年会（1994 年起有录像）没有逐年列入，见“股东大会”。</p>
@@ -180,12 +187,13 @@ footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--rule);font-si
 <script src="c3.js"></script>
 <script src="c4.js"></script>
 <script src="c5.js"></script>
+<script src="c6.js"></script>
 <script>
 "use strict";
 const $=id=>document.getElementById(id),M=window.M;
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 let curTab="life",curTalk=10,curMeet="djco";
-const TABS=["life","talks","bias","models","rules","meet","cat","read","how"];
+const TABS=["life","talks","bias","models","rules","meet","bq","cat","read","how"];
 const INDEX=[];
 const add=(go,where,text)=>INDEX.push({go,where,text});
 
@@ -240,6 +248,12 @@ function djHtml(){
 M.DJ.forEach(d=>d.qa.forEach(q=>add("dj:"+d.y,"每日期刊年会 "+d.y+" · "+q[0],q[0]+"："+q[1])));
 M.MEET.forEach(m=>{add("meet:"+m.k,m.t,m.intro);m.years.forEach(y=>add("meet:"+m.k,m.t+" · "+y[0],y[1]))});
 M.THEMES.forEach(t=>add("meet:themes","年会话题 · "+t[0],t[1]));
+
+/* 贝基·奎克采访 */
+$("bq").innerHTML=M.BQ.map((d,i)=>`<details class="b" id="bq${i}"${i===0?" open":""}><summary><span style="grid-column:1/-1"><b>${esc(d.t)}</b><span class="e">${esc(d.y)}</span><span class="d">${esc(d.place)}　·　${esc(d.lv)}</span></span></summary>
+  <div class="in" style="padding-left:0"><div class="rows">${d.qa.map(q=>`<div class="y" style="font-family:var(--kai);font-size:1rem">${esc(q[0])}</div><div>${esc(q[1])}</div>`).join("")}</div>
+  ${d.src.length?`<p class="small muted">依据：${d.src.map(x=>`<a href="${esc(x[1])}" target="_blank" rel="noopener">${esc(x[0])}</a>`).join("；")}</p>`:""}</div></details>`).join("");
+M.BQ.forEach(d=>d.qa.forEach(q=>add("bq","奎克采访 "+d.y+" · "+q[0],q[0]+"："+q[1])));
 
 /* 总目、出处、书单、说明 */
 $("cat").innerHTML=`<tr><th>年份</th><th>题目</th><th>场合</th><th>内容</th></tr>`+M.CATALOG.map(c=>`<tr><td>${esc(c[0])}</td><td>${esc(c[1])}</td><td>${esc(c[2])}</td><td>${esc(c[3])}</td></tr>`).join("");
