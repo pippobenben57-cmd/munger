@@ -193,6 +193,7 @@ footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--rule);font-si
 <script src="c5.js"></script>
 <script src="c6.js"></script>
 <script src="c7.js"></script>
+<script src="c8.js"></script>
 <script>
 "use strict";
 const $=id=>document.getElementById(id),M=window.M;
@@ -255,6 +256,7 @@ M.MEET.forEach(m=>{add("meet:"+m.k,m.t,m.intro);m.years.forEach(y=>add("meet:"+m
 M.THEMES.forEach(t=>add("meet:themes","年会话题 · "+t[0],t[1]));
 
 /* 访谈 */
+M.IV.forEach(d=>{const m=/(\d{4}) 年(?: (\d+) 月)?/.exec(d.y);d.k=m?(+m[1])*100+(+m[2]||0):0});M.IV.sort((a,b)=>b.k-a.k);
 $("iv").innerHTML=M.IV.map((d,i)=>`<details class="b${d.bq?" isbq":""}" id="iv${i}"><summary><span style="grid-column:1/-1"><b>${esc(d.t)}</b><span class="e">${esc(d.y)}${d.bq?" · 奎克":""}</span><span class="d">${esc(d.who)}　·　${esc(d.place)}　·　${d.qa.length} 条</span></span></summary>
   <div class="in" style="padding-left:0"><div class="rows">${d.qa.map(q=>`<div class="y" style="font-family:var(--kai);font-size:1rem">${esc(q[0])}</div><div>${esc(q[1])}</div>`).join("")}</div></div></details>`).join("");
 M.IV.forEach((d,i)=>d.qa.forEach(q=>add("iv:"+i,"访谈 "+d.y+" "+d.t+" · "+q[0],q[0]+"："+q[1])));
