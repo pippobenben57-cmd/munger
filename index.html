@@ -179,6 +179,7 @@ footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--rule);font-si
 <script src="c2.js"></script>
 <script src="c3.js"></script>
 <script src="c4.js"></script>
+<script src="c5.js"></script>
 <script>
 "use strict";
 const $=id=>document.getElementById(id),M=window.M;
@@ -198,15 +199,15 @@ $("tside").innerHTML=M.TALKS.map(t=>`<button type="button" data-talk="${t.n}"><s
 function showTalk(n){
   n=Math.max(1,Math.min(11,n));curTalk=n;const t=M.TALKS[n-1];
   document.querySelectorAll("[data-talk]").forEach(b=>b.setAttribute("aria-current",+b.dataset.talk===n?"true":"false"));
-  $("tbody").innerHTML=`<div class="eyebrow">宝典第 ${n} 讲 · 导读</div><h2>${esc(t.t)}</h2>
+  $("tbody").innerHTML=`<div class="eyebrow">宝典第 ${n} 讲 · 详细导读</div><h2>${esc(t.t)}</h2>
    <p class="muted small" lang="en" style="font-family:var(--en);font-style:italic;margin:0">${esc(t.en)}</p>
    <p class="small muted">${esc(t.when)}</p><p>${esc(t.bg)}</p>
-   <h3>他讲了什么</h3><ol class="pts">${t.pts.map(p=>`<li>${esc(p)}</li>`).join("")}</ol>
+   ${(M.TALKD&&M.TALKD[n])?M.TALKD[n].secs.map(s=>`<h3>${esc(s[0])}</h3>${s[1].map(p=>`<p>${esc(p)}</p>`).join("")}`).join(""):`<h3>他讲了什么</h3><ol class="pts">${t.pts.map(p=>`<li>${esc(p)}</li>`).join("")}</ol>`}
    <h3>要点</h3><div class="take">${esc(t.take)}</div>
    ${n===11?`<p><button type="button" data-tab="bias" style="color:var(--acc);text-decoration:underline">逐条看二十五种倾向 →</button></p>`:""}
    <div class="pager"><button type="button" data-talk="${n-1}" ${n===1?"disabled":""}>← 上一讲</button><button type="button" data-talk="${n+1}" ${n===11?"disabled":""}>下一讲 →</button></div>`;
 }
-M.TALKS.forEach(t=>add("talk:"+t.n,"第 "+t.n+" 讲 · "+t.t,[t.t,t.when,t.bg,...t.pts,t.take].join("\n")));
+M.TALKS.forEach(t=>{add("talk:"+t.n,"第 "+t.n+" 讲 · "+t.t,[t.t,t.when,t.bg,t.take].join("\n"));const d=M.TALKD&&M.TALKD[t.n];(d?d.secs:[["",t.pts]]).forEach(s=>s[1].forEach(p=>add("talk:"+t.n,"第 "+t.n+" 讲 · "+(s[0]||t.t),p)));});
 
 /* 误判心理学 */
 $("bias").innerHTML=M.BIAS.map(b=>`<details class="b" id="b${b[0]}"><summary><span class="n">${b[0]}</span><span><b>${esc(b[1])}</b><span class="e" lang="en">${esc(b[2])}</span><span class="d">${esc(b[3])}</span></span></summary><div class="in"><dl><dt>例子</dt><dd>${esc(b[4])}</dd><dt>对策</dt><dd>${esc(b[5])}</dd></dl></div></details>`).join("");
