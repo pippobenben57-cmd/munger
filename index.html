@@ -155,8 +155,12 @@ footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--rule);font-si
 </section>
 
 <section class="view" id="v-bq" hidden>
-  <h2>贝基·奎克的历次采访</h2>
-  <p class="muted">CNBC 的贝基·奎克是采访芒格最多的记者。下面按时间倒序列出能确认的各场。CNBC 的文字稿受版权保护，网站也无法从这里直接读取，所以每一场都写明了核对到什么程度；只有核对过的内容才展开。</p>
+  <h2>访谈与对谈</h2>
+  <p class="muted">宝典以外的主要访谈，按时间倒序。每一篇都对照公开流传的整理稿核对过，再用编者自己的话按话题转述；不是原话，也不是译文。标有“奎克”的是 CNBC 贝基·奎克的采访。</p>
+  <p class="small"><button type="button" id="onlybq" style="color:var(--acc);text-decoration:underline">只看贝基·奎克的采访</button></p>
+  <div id="iv"></div>
+  <h3>贝基·奎克的其他场次</h3>
+  <p class="muted small">下面几场只确认了场次和话题，没有读到可核对的全文，所以不展开。</p>
   <div id="bq"></div>
 </section>
 
@@ -188,6 +192,7 @@ footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--rule);font-si
 <script src="c4.js"></script>
 <script src="c5.js"></script>
 <script src="c6.js"></script>
+<script src="c7.js"></script>
 <script>
 "use strict";
 const $=id=>document.getElementById(id),M=window.M;
@@ -249,11 +254,14 @@ M.DJ.forEach(d=>d.qa.forEach(q=>add("dj:"+d.y,"每日期刊年会 "+d.y+" · "+q
 M.MEET.forEach(m=>{add("meet:"+m.k,m.t,m.intro);m.years.forEach(y=>add("meet:"+m.k,m.t+" · "+y[0],y[1]))});
 M.THEMES.forEach(t=>add("meet:themes","年会话题 · "+t[0],t[1]));
 
-/* 贝基·奎克采访 */
-$("bq").innerHTML=M.BQ.map((d,i)=>`<details class="b" id="bq${i}"${i===0?" open":""}><summary><span style="grid-column:1/-1"><b>${esc(d.t)}</b><span class="e">${esc(d.y)}</span><span class="d">${esc(d.place)}　·　${esc(d.lv)}</span></span></summary>
+/* 访谈 */
+$("iv").innerHTML=M.IV.map((d,i)=>`<details class="b${d.bq?" isbq":""}" id="iv${i}"><summary><span style="grid-column:1/-1"><b>${esc(d.t)}</b><span class="e">${esc(d.y)}${d.bq?" · 奎克":""}</span><span class="d">${esc(d.who)}　·　${esc(d.place)}　·　${d.qa.length} 条</span></span></summary>
+  <div class="in" style="padding-left:0"><div class="rows">${d.qa.map(q=>`<div class="y" style="font-family:var(--kai);font-size:1rem">${esc(q[0])}</div><div>${esc(q[1])}</div>`).join("")}</div></div></details>`).join("");
+M.IV.forEach((d,i)=>d.qa.forEach(q=>add("iv:"+i,"访谈 "+d.y+" "+d.t+" · "+q[0],q[0]+"："+q[1])));
+$("onlybq").addEventListener("click",e=>{const on=e.target.dataset.on!=="1";e.target.dataset.on=on?"1":"";e.target.textContent=on?"显示全部访谈":"只看贝基·奎克的采访";document.querySelectorAll("#iv details").forEach(d=>d.hidden=on&&!d.classList.contains("isbq"))});
+$("bq").innerHTML=M.BQ.map((d,i)=>`<details class="b" id="bq${i}"><summary><span style="grid-column:1/-1"><b>${esc(d.t)}</b><span class="e">${esc(d.y)}</span><span class="d">${esc(d.place)}　·　${esc(d.lv)}</span></span></summary>
   <div class="in" style="padding-left:0"><div class="rows">${d.qa.map(q=>`<div class="y" style="font-family:var(--kai);font-size:1rem">${esc(q[0])}</div><div>${esc(q[1])}</div>`).join("")}</div>
   ${d.src.length?`<p class="small muted">依据：${d.src.map(x=>`<a href="${esc(x[1])}" target="_blank" rel="noopener">${esc(x[0])}</a>`).join("；")}</p>`:""}</div></details>`).join("");
-M.BQ.forEach(d=>d.qa.forEach(q=>add("bq","奎克采访 "+d.y+" · "+q[0],q[0]+"："+q[1])));
 
 /* 总目、出处、书单、说明 */
 $("cat").innerHTML=`<tr><th>年份</th><th>题目</th><th>场合</th><th>内容</th></tr>`+M.CATALOG.map(c=>`<tr><td>${esc(c[0])}</td><td>${esc(c[1])}</td><td>${esc(c[2])}</td><td>${esc(c[3])}</td></tr>`).join("");
@@ -272,6 +280,7 @@ function go(g){
   if(a==="talk"){tab("talks");showTalk(+b);setHash("talk-"+b);}
   else if(a==="bias"){tab("bias",true);const d=$("b"+b);if(d){d.open=true;d.scrollIntoView({block:"center"});d.classList.add("hit");setTimeout(()=>d.classList.remove("hit"),1800);}setHash("b"+b);}
   else if(a==="meet"){tab("meet");showMeet(b);setHash("meet-"+b);}
+  else if(a==="iv"){tab("bq",true);const d=$("iv"+b);if(d){d.hidden=false;d.open=true;d.scrollIntoView({block:"start"});}setHash("iv"+b);}
   else if(a==="dj"){tab("meet",true);showMeet("djco");const d=$("dj"+b);if(d){d.open=true;d.scrollIntoView({block:"start"});}setHash("dj"+b);}
   else if(TABS.includes(a)){tab(a);setHash(a);}
 }
@@ -281,6 +290,7 @@ function route(){
   else if((m=/^b(\d+)$/.exec(h)))go("bias:"+m[1]);
   else if((m=/^meet-(\w+)$/.exec(h)))go("meet:"+m[1]);
   else if((m=/^dj(\d{4})$/.exec(h)))go("dj:"+m[1]);
+  else if((m=/^iv(\d+)$/.exec(h)))go("iv:"+m[1]);
   else if(TABS.includes(h))tab(h);
   else tab("life");
 }
