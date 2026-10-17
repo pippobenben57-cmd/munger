@@ -80,6 +80,22 @@ ul.chk{list-style:none;padding:0;margin:0}
 ul.chk li{padding:5px 0 5px 1.4em;position:relative;font-size:.95rem;border-bottom:1px dotted var(--rule)}
 ul.chk li::before{content:"";position:absolute;left:0;top:.75em;width:.7em;height:.7em;border:1px solid var(--acc)}
 table.cat{border-collapse:collapse;width:100%;font-size:.92rem}
+.rfilter{display:flex;flex-wrap:wrap;gap:6px 10px;margin:14px 0 6px}
+.rfilter button{font-size:.88rem;border:1px solid var(--rule);padding:2px 10px;color:var(--soft)}
+.rfilter button[aria-pressed="true"]{border-color:var(--acc);color:var(--acc)}
+details.bk{border-bottom:1px solid var(--rule);max-width:48em;scroll-margin-top:70px}
+details.bk summary{cursor:pointer;list-style:none;padding:12px 0;display:grid;grid-template-columns:2.2em minmax(0,1fr);gap:0 8px}
+details.bk summary::-webkit-details-marker{display:none}
+details.bk summary .n{font-family:var(--en);color:var(--acc);font-variant-numeric:tabular-nums;padding-top:3px}
+details.bk summary b{font-family:var(--kai);font-weight:400;font-size:1.25rem}
+details.bk summary .e{display:block;font-family:var(--en);font-style:italic;font-size:.84rem;color:var(--faint)}
+details.bk summary .d{display:block;color:var(--soft);font-size:.93rem;margin-top:2px}
+details.bk .in{padding:0 0 18px 3em}
+details.bk .in h4{font-family:var(--kai);font-weight:400;color:var(--acc);font-size:1.02rem;margin:14px 0 2px}
+details.bk .in p{margin:0}
+details.bk .in ul{margin:4px 0 0;padding-left:1.2em}
+details.bk .in .tag{font-size:.78rem;color:var(--faint)}
+@media(max-width:640px){details.bk .in{padding-left:0}}
 table.cat th,table.cat td{border-bottom:1px solid var(--rule);padding:7px 12px 7px 0;text-align:left;vertical-align:top;font-weight:400}
 table.cat th{font-size:.78rem;letter-spacing:.1em;color:var(--faint)}
 table.cat td:first-child{font-family:var(--en);color:var(--acc);white-space:nowrap;font-variant-numeric:tabular-nums}
@@ -111,6 +127,7 @@ footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--rule);font-si
   <button type="button" data-tab="meet">股东大会</button>
   <button type="button" data-tab="bq">访谈</button>
   <button type="button" data-tab="cat">总目</button>
+  <button type="button" data-tab="list">书单</button>
   <button type="button" data-tab="read">去哪里读</button>
   <button type="button" data-tab="how">怎么读</button>
   <span class="sp"></span>
@@ -174,8 +191,17 @@ footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--rule);font-si
   <h2>去哪里读原文</h2>
   <dl class="kv" id="about" style="max-width:46em"></dl>
   <h2 style="margin-top:44px">他推荐过的书</h2>
-  <p class="muted small">他说自己认识的聪明人没有一个不是每天读书的。下面是他在宝典和年会上推荐过的一部分。</p>
-  <div class="scroll"><table class="cat" id="books"></table></div>
+  <p class="muted small">《穷查理宝典》书目里的二十三本书，每本的详细介绍见 <button type="button" data-tab="list" style="color:var(--acc);text-decoration:underline">书单</button> 一栏。</p>
+</section>
+
+<section class="view" id="v-list" hidden>
+  <h2>芒格推荐的书</h2>
+  <div id="rintro"></div>
+  <div class="rfilter" id="rfilter"></div>
+  <p class="small"><button type="button" id="ropen" style="color:var(--acc);text-decoration:underline">全部展开</button></p>
+  <div id="rlist"></div>
+  <h3>书目之外</h3>
+  <dl class="kv" id="rmore" style="max-width:46em"></dl>
 </section>
 
 <section class="view" id="v-how" hidden>
@@ -194,12 +220,13 @@ footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--rule);font-si
 <script src="c6.js"></script>
 <script src="c7.js"></script>
 <script src="c8.js"></script>
+<script src="c9.js"></script>
 <script>
 "use strict";
 const $=id=>document.getElementById(id),M=window.M;
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 let curTab="life",curTalk=10,curMeet="djco";
-const TABS=["life","talks","bias","models","rules","meet","bq","cat","read","how"];
+const TABS=["life","talks","bias","models","rules","meet","bq","cat","list","read","how"];
 const INDEX=[];
 const add=(go,where,text)=>INDEX.push({go,where,text});
 
@@ -269,8 +296,21 @@ $("bq").innerHTML=M.BQ.map((d,i)=>`<details class="b" id="bq${i}"><summary><span
 $("cat").innerHTML=`<tr><th>年份</th><th>题目</th><th>场合</th><th>内容</th></tr>`+M.CATALOG.map(c=>`<tr><td>${esc(c[0])}</td><td>${esc(c[1])}</td><td>${esc(c[2])}</td><td>${esc(c[3])}</td></tr>`).join("");
 M.CATALOG.forEach(c=>add("cat","总目 · "+c[0]+" "+c[1],c.join(" ")));
 $("about").innerHTML=M.ABOUT.map(p=>`<dt>${esc(p[0])}</dt><dd>${esc(p[1])}</dd>`).join("");
-$("books").innerHTML=`<tr><th></th><th>书名</th><th>作者</th><th>说明</th></tr>`+M.BOOKS.map((b,i)=>`<tr><td>${i+1}</td><td>${esc(b[0])}</td><td>${esc(b[1])}</td><td>${esc(b[2])}</td></tr>`).join("");
-M.ABOUT.forEach(p=>add("read","去哪里读 · "+p[0],p[1]));M.BOOKS.forEach(b=>add("read","书单 · "+b[0],b.join(" ")));
+M.ABOUT.forEach(p=>add("read","去哪里读 · "+p[0],p[1]));
+/* 书单 */
+$("rintro").innerHTML=M.READ_INTRO.map(p=>`<p class="muted">${esc(p)}</p>`).join("");
+let rcat="";
+function drawRead(){
+  $("rfilter").innerHTML=["全部",...M.READ_CATS].map(c=>`<button type="button" data-rc="${c==="全部"?"":c}" aria-pressed="${(c==="全部"?"":c)===rcat}">${c}${c==="全部"?"":" · "+M.READ.filter(b=>b.c===c).length}</button>`).join("");
+  const list=M.READ.map((b,i)=>[b,i]).filter(([b])=>!rcat||b.c===rcat);
+  $("rlist").innerHTML=list.map(([b,i])=>`<details class="bk" id="rb${i}"><summary><span class="n">${String(i+1).padStart(2,"0")}</span><span><b>《${esc(b.zh)}》</b><span class="e" lang="en">${esc(b.en)}</span><span class="d">${esc(b.au)}　·　${esc(b.yr)}　·　${esc(b.c)}</span><span class="d">${esc(b.one)}</span></span></summary>
+   <div class="in"><h4>作者</h4><p>${esc(b.who)}</p><h4>这本书讲什么</h4><p>${esc(b.what)}</p><h4>核心观点</h4><ul>${b.ideas.map(x=>`<li>${esc(x)}</li>`).join("")}</ul><h4>和芒格的关系</h4><p>${esc(b.why)}</p><h4>中文版</h4><p>${esc(b.cn)}</p><h4>怎么读</h4><p>${esc(b.how)}</p></div></details>`).join("");
+}
+drawRead();
+$("rfilter").addEventListener("click",e=>{const b=e.target.closest("[data-rc]");if(!b)return;rcat=b.dataset.rc;drawRead();$("ropen").textContent="全部展开"});
+$("ropen").addEventListener("click",e=>{const ds=[...document.querySelectorAll("details.bk")],o=ds.some(d=>!d.open);ds.forEach(d=>d.open=o);e.target.textContent=o?"全部收起":"全部展开"});
+$("rmore").innerHTML=M.READ_MORE.map(p=>`<dt>${esc(p[0])}　<span class="small muted">${esc(p[1])}</span></dt><dd>${esc(p[2])}</dd>`).join("");
+M.READ.forEach((b,i)=>add("rb:"+i,"书单 · 《"+b.zh+"》",[b.zh,b.en,b.au,b.one,b.who,b.what,b.ideas.join(""),b.why].join("\n")));
 $("how").innerHTML=M.HOWTO.map(p=>`<dt>${esc(p[0])}</dt><dd>${esc(p[1])}</dd>`).join("");
 
 /* 切换与路由 */
@@ -284,6 +324,7 @@ function go(g){
   else if(a==="meet"){tab("meet");showMeet(b);setHash("meet-"+b);}
   else if(a==="iv"){tab("bq",true);const d=$("iv"+b);if(d){d.hidden=false;d.open=true;d.scrollIntoView({block:"start"});}setHash("iv"+b);}
   else if(a==="dj"){tab("meet",true);showMeet("djco");const d=$("dj"+b);if(d){d.open=true;d.scrollIntoView({block:"start"});}setHash("dj"+b);}
+  else if(a==="rb"){rcat="";drawRead();tab("list",true);const d=$("rb"+b);if(d){d.open=true;d.scrollIntoView({block:"start"});}setHash("rb"+b);}
   else if(TABS.includes(a)){tab(a);setHash(a);}
 }
 function route(){
@@ -293,6 +334,7 @@ function route(){
   else if((m=/^meet-(\w+)$/.exec(h)))go("meet:"+m[1]);
   else if((m=/^dj(\d{4})$/.exec(h)))go("dj:"+m[1]);
   else if((m=/^iv(\d+)$/.exec(h)))go("iv:"+m[1]);
+  else if((m=/^rb(\d+)$/.exec(h)))go("rb:"+m[1]);
   else if(TABS.includes(h))tab(h);
   else tab("life");
 }
